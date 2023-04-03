@@ -1,0 +1,14 @@
+doThis3Times:
+  cmd: "ECHO 123"
+  when: "11:02"
+  repeatin: "45s"
+  repeattimes:  2
+
+repeatOnce:
+  cmd: "Echo 456"
+  when: "1h"
+  repeatin: "60s"
+
+doOnlyOnce:
+  cmd: "Echo 456"
+  when: "1h"
