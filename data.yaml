@@ -1,19 +1,20 @@
-This3Times:
-  cmd: "echo running first task"
-  when: "14:02"
-  repeatin: "2s"
-  repeattimes:  2
-
-This2Times:
-  cmd: "echo repeating"
+firstProcess:
+  cmd: "echo starting"
   when: "1s"
-  repeatin: "1s"
-  repeattimes: 3
 
-echoStuffOnce:
-  cmd: "echo foo bar baz"
-  when: "32s"
+secondProcess:
+  cmd: "ls"
+  when: "2s"
+  repeatin: "1h"
 
-anotherOnce:
-  cmd: "sleep 5"
-  when: "30s"
+PingManyTimes:
+  cmd: "ping -c 2 google.com"
+  when: "3s"
+  repeatin: "10s"
+  repeattimes: 2
+
+This3Times:
+  cmd: "echo run this at 12:30 local-time"
+  when: "12:30"
+  repeatin: "24h"
+  repeattimes:  365
