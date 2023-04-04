@@ -1,15 +1,14 @@
 echoStuffOnce:
   cmd: "echo foo bar baz"
-  when: "1000s"
+  when: "10s"
 
 anotherOnce:
   cmd: "echo 2nd done"
-  when: "2000s"
-  repeatin: "100s"
-
+  when: "9s"
+  repeatin: "9s"
 
 This3Times:
   cmd: "echo running first task"
-  when: "11:11"
+  when: "11:30"
   repeatin: "2s"
   repeattimes:  2
