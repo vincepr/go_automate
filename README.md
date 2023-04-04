@@ -22,4 +22,4 @@ process2:
 
 ## Limitations
 - no way to time out processes that keep running. For example `ping google.com` will keep running and would only pass it's logging over once it finishes. But since it does not, no output is passed down.
-
+    - https://www.sohamkamani.com/golang/exec-shell-command/ if i ever need something like that.
