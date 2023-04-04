@@ -9,7 +9,6 @@ import (
 )
 
 
-
 func main(){
 	// parse flags:
 	path := flag.String("path", "./data.yaml", "path to the .yaml file")

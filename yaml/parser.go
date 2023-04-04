@@ -102,7 +102,6 @@ func parseWhenRepeat(whenStr, repeatStr string) (when time.Time, repeatIn time.D
 	// time in past/no-input-made -> instantly start it by moving it in the past
 	if whenStr == "" {
 		return time.Now().Add(-time.Hour), repeatIn
-
 	}
 	// try to parse alternative clock-like pattern "12:30" "22:1" "8:00"
 	dur, err = parseClockDuration(whenStr)
@@ -112,7 +111,7 @@ func parseWhenRepeat(whenStr, repeatStr string) (when time.Time, repeatIn time.D
 	when = time.Now().Truncate(24 * time.Hour) // 00:00 of today
 	when = when.Add(dur)                       // hh:mm on today
 	if when.Compare(time.Now()) == -1 {        // check if that time already happened today
-		when.Add(time.Hour * 24)
+		when = when.AddDate(0,0,1)
 	}
 	return when, repeatIn
 }

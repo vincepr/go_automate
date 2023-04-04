@@ -17,12 +17,12 @@ type InfoChan struct{
 }
 
 /*
-	schedulers to start Processes called in goroutines for multithreading.
+	schedulers to start Processes. Themself called with goroutines for multithreading.
 */
 
 func RunOnce(p yaml_parser.ProcessOnce, ch chan InfoChan){
 	dur := p.When.Sub(time.Now())
-	log.Printf("SCHEDULED: %s;	CMD: %s;	IN: %v seconds;",p.Name,p.Cmd,dur)
+	log.Printf("SCHEDULED: %s;	CMD: %s;	IN: %v;",p.Name,p.Cmd,dur)
 	time.Sleep(dur)
 	log.Printf("STARTED: %s;	CMD: %s;",p.Name,p.Cmd)
 	out := cmd.Run(p.Cmd)
@@ -39,7 +39,7 @@ func RunRepeating(p yaml_parser.ProcessRepeat, ch chan InfoChan){
 	if p.RepeatTimes == 0 {p.RepeatTimes=1}
 	counter := p.RepeatTimes
 	dur := p.When.Sub(time.Now())
-	log.Printf("SCHEDULED: %s;	CMD: %s;	IN: %v seconds; REPEATS: %v;",p.Name,p.Cmd,dur,counter)
+	log.Printf("SCHEDULED: %s;	CMD: %s;	IN: %v; REPEATS: %v;",p.Name,p.Cmd,dur,counter)
 	time.Sleep(dur)
 	for counter>0{
 		log.Printf("STARTED: %s;		CMD: %s; REPEATS: %v;",p.Name,p.Cmd,counter)
@@ -68,7 +68,7 @@ func RunRepeating(p yaml_parser.ProcessRepeat, ch chan InfoChan){
 	handle syncing up, when all Processes are done. By taking count
 */
 
-// takes count of how many process are not finished
+// "WaitGroup", takes count of how many process are not finished
 var countPr int32
 func ReadWg() int32{
 	return atomic.LoadInt32(&countPr)

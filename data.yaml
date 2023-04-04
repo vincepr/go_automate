@@ -1,6 +1,6 @@
 This3Times:
   cmd: "echo running first task"
-  when: "11:02"
+  when: "14:02"
   repeatin: "2s"
   repeattimes:  2
 
