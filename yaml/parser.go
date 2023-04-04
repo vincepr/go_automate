@@ -25,6 +25,7 @@ type processYaml struct {
 }
 
 type ProcessRepeat struct {
+	Name		string
 	Cmd         string
 	When        time.Time
 	RepeatIn    time.Duration
@@ -32,6 +33,7 @@ type ProcessRepeat struct {
 }
 
 type ProcessOnce struct {
+	Name		string
 	Cmd  		string
 	When 		time.Time
 }
@@ -58,15 +60,17 @@ func parseYaml(path string) map[string]processYaml {
 func parseToProcess(ps map[string]processYaml) ([]ProcessOnce, []ProcessRepeat) {
 	procsOnce := []ProcessOnce{}
 	procsRep := []ProcessRepeat{}
-	for _, p := range ps {
+	for key, p := range ps {
 		when, repeatIn := parseWhenRepeat(p.When, p.RepeatIn)
 		if repeatIn == 0 {
 			procsOnce = append(procsOnce, ProcessOnce{
+				Name:	key,
 				Cmd:  p.Cmd,
 				When: when,
 			})
 		} else {
 			procsRep = append(procsRep, ProcessRepeat{
+				Name:		key,
 				Cmd:         p.Cmd,
 				When:        when,
 				RepeatIn:    repeatIn,

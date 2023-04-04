@@ -1,18 +1,19 @@
-doThis3Times:
+This3Times:
   cmd: "echo running first task"
   when: "11:02"
   repeatin: "2s"
   repeattimes:  2
 
-repeatOnce:
-  cmd: "ls"
-  when: "1h"
-  repeatin: "5s"
+This2Times:
+  cmd: "echo repeating"
+  when: "1s"
+  repeatin: "1s"
+  repeattimes: 3
 
-doOnlyOnce:
-  cmd: "ping google.com"
-  when: "1h"
+echoStuffOnce:
+  cmd: "echo foo bar baz"
+  when: "32s"
 
-startSomeProgramm:
-  cmd: "./somefile -withflags true"
-  when: "3h"
+anotherOnce:
+  cmd: "sleep 5"
+  when: "30s"

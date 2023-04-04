@@ -1,0 +1,8 @@
+echoStuffOnce:
+  cmd: "echo foo bar baz"
+  when: "1s"
+
+anotherOnce:
+  cmd: "echo 2nd done"
+  when: "2s"
+  repeatin: "1s"

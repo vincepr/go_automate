@@ -1,4 +1,4 @@
-module github.com/vincepr/go_cron
+module github.com/vincepr/go_automate
 
 go 1.20
 

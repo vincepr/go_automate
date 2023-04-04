@@ -1,55 +1,40 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"log"
-	"os/exec"
-	"strings"
-	"time"
 
-	"github.com/vincepr/go_cron/yaml"
+	"github.com/vincepr/go_automate/shedule"
+	"github.com/vincepr/go_automate/yaml"
 )
 
+
+
 func main(){
-	path := "./data.yaml"
-	println("main running")
-	prOnce, prRepeat := yaml_parser.ParseCmds(path)
-	fmt.Printf("Once:  %+v \nRepeat:%+v \n", prOnce, prRepeat)
+	// parse flags:
+	path := flag.String("path", "./data.yaml", "path to the .yaml file")
+	flag.Parse()
+	// setup sync & channel
+	prOnce, prRepeat := yaml_parser.ParseCmds(*path)
+	ch := make(chan schedule.InfoChan)
 
-
-	//runCmd(prRepeat[0].Cmd)
-	ch := make(chan string, 1)
-	go func (t time.Duration){
-		time.Sleep(t)
-		out := runCmd(prRepeat[0].Cmd)
-		ch <- out
-	}(prRepeat[0].RepeatIn)
-
-
-	select {
-	case res := <-ch:
-	   fmt.Println(res)
-	case <-time.After(3 * time.Second):
-	   fmt.Println("Out of time :(")
+	// start the processes:
+	for _,val :=range prOnce{
+		schedule.AddWg(+1)
+		go schedule.RunOnce(val, ch)
 	}
-	fmt.Println("Main function exited!")
-
-}
-
-func runCmd(str string) string{
-	split := strings.Split(str, " ")
-	cmd := exec.Command(split[0])
-	if len(split)>1{
-		cmd = exec.Command(split[0],split[1:]...)
+	for _,val:=range prRepeat{
+		schedule.AddWg(+1)
+		go schedule.RunRepeating(val, ch)
 	}
-	out,err := cmd.Output()
-	if err != nil{
-		log.Fatal(err)
-	}
-	fmt.Println(string(out))
-	return string(out)
-}
 
-func timeout(t time.Duration){
-	time.Sleep(t)
+	// keep reading for processes's outputs:
+	for out := range ch {
+		log.Printf("FINISHED: %s;		CMD: %s;		OUTPUT: %s;", out.Name, out.Cmd, out.Output)
+		if schedule.ReadWg()<=0{
+			break	// all processes have finished
+		}
+    }
+
+	println("All Processes finished, shutting down gracefully.")
 }
