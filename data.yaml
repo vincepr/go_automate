@@ -1,14 +1,18 @@
 doThis3Times:
-  cmd: "ECHO 123"
+  cmd: "echo running first task"
   when: "11:02"
-  repeatin: "45s"
+  repeatin: "2s"
   repeattimes:  2
 
 repeatOnce:
-  cmd: "Echo 456"
+  cmd: "ls"
   when: "1h"
-  repeatin: "60s"
+  repeatin: "5s"
 
 doOnlyOnce:
-  cmd: "Echo 456"
+  cmd: "ping google.com"
   when: "1h"
+
+startSomeProgramm:
+  cmd: "./somefile -withflags true"
+  when: "3h"

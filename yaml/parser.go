@@ -78,6 +78,7 @@ func parseToProcess(ps map[string]processYaml) ([]ProcessOnce, []ProcessRepeat) 
 }
 
 func parseWhenRepeat(whenStr, repeatStr string) (when time.Time, repeatIn time.Duration) {
+	/*PARSE when Argument*/
 	repeatIn, err := time.ParseDuration(repeatStr)
 	if err != nil {
 		if repeatStr == "" {
@@ -86,8 +87,10 @@ func parseWhenRepeat(whenStr, repeatStr string) (when time.Time, repeatIn time.D
 			log.Fatal(err)
 		}
 	}
-	// parse regular pattern "1m" "12h" "1h15m30s"
+	
+	/*PARSE RepeatIn Argument*/
 	dur, err := time.ParseDuration(whenStr)
+	// parse regular pattern "1m" "12h" "1h15m30s"
 	if err == nil {
 		when = time.Now().Add(dur)
 		return when, repeatIn
